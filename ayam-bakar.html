@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; script-src 'self' 'unsafe-inline';" />
+  <meta name="description" content="Ayam Bakar Pak Karto – Cita rasa autentik, dibakar dengan arang pilihan setiap hari." />
+  <title>Ayam Bakar Pak Karto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --charcoal:   #1a1410;
+      --ember:      #c8440a;
+      --flame:      #f07030;
+      --gold:       #e8a830;
+      --smoke:      #2e2420;
+      --ash:        #5c4f46;
+      --cream:      #f5ede0;
+      --warm-white: #fdf6ee;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--charcoal);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: linear-gradient(to bottom, rgba(26,20,16,.95) 0%, transparent 100%);
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--flame); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: .875rem;
+      font-weight: 400;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      opacity: .75;
+      transition: opacity .2s, color .2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+    /* HERO */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 80%, rgba(200,68,10,.45) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 90%, rgba(240,112,48,.25) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(232,168,48,.12) 0%, transparent 55%),
+        var(--charcoal);
+      animation: fireGlow 4s ease-in-out infinite alternate;
+    }
+    @keyframes fireGlow {
+      0%   { filter: brightness(1); }
+      100% { filter: brightness(1.15); }
+    }
+    .hero-grill {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 45%;
+      opacity: .08;
+      background-image:
+        repeating-linear-gradient(0deg,   var(--ash) 0px, var(--ash) 2px, transparent 2px, transparent 32px),
+        repeating-linear-gradient(90deg,  var(--ash) 0px, var(--ash) 2px, transparent 2px, transparent 32px);
+    }
+    .embers { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .ember {
+      position: absolute;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 6px 2px var(--flame);
+      animation: floatUp var(--dur, 6s) ease-in var(--delay, 0s) infinite;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) translateX(0) scale(1);   opacity: .9; }
+      60%  { opacity: .6; }
+      100% { transform: translateY(-60vh) translateX(var(--dx, 20px)) scale(0); opacity: 0; }
+    }
+    .hero-content {
+      position: relative;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeUp .9s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(200,68,10,.2);
+      border: 1px solid rgba(200,68,10,.5);
+      color: var(--flame);
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: .35rem 1.1rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(6px);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      margin-bottom: .5rem;
+    }
+    .hero-title .accent { color: var(--flame); font-style: italic; }
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--gold);
+      margin-bottom: 1.4rem;
+      opacity: .9;
+    }
+    .hero-desc {
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      font-size: .95rem;
+      line-height: 1.75;
+      color: rgba(245,237,224,.7);
+      font-weight: 300;
+    }
+    .hero-cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: linear-gradient(135deg, var(--ember), var(--flame));
+      color: #fff;
+      text-decoration: none;
+      font-size: .875rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: .85rem 2rem;
+      border-radius: 4px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(200,68,10,.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,68,10,.55); }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: transparent;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: .875rem;
+      font-weight: 400;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: .85rem 2rem;
+      border-radius: 4px;
+      border: 1px solid rgba(245,237,224,.25);
+      transition: border-color .2s, background .2s, color .2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); background: rgba(232,168,48,.07); color: var(--gold); }
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      opacity: .4;
+      animation: bounce 2s ease infinite;
+    }
+    .scroll-hint span { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* COMMON */
+    section { padding: 6rem 2rem; }
+    .section-label {
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--flame);
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .divider {
+      width: 48px; height: 3px;
+      background: linear-gradient(90deg, var(--ember), transparent);
+      border-radius: 2px;
+      margin: 1.2rem 0 1.6rem;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* STORY */
+    #cerita {
+      background: var(--smoke);
+      position: relative;
+      overflow: hidden;
+    }
+    #cerita::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -20%;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,68,10,.08) 0%, transparent 70%);
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .story-visual { position: relative; }
+    .story-plate {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 40% 40%, rgba(232,168,48,.15), transparent 60%),
+        radial-gradient(circle at 60% 70%, rgba(200,68,10,.2), transparent 50%),
+        var(--charcoal);
+      border: 1px solid rgba(200,68,10,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-plate::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(200,68,10,.04) 8px, rgba(200,68,10,.04) 9px);
+    }
+    .story-tag {
+      position: absolute;
+      bottom: -1rem; right: -1rem;
+      background: var(--ember);
+      color: #fff;
+      padding: .9rem 1.4rem;
+      border-radius: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(200,68,10,.4);
+    }
+    .story-tag small { display: block; font-family: 'DM Sans', sans-serif; font-size: .7rem; font-weight: 400; opacity: .8; }
+    .story-text p {
+      font-size: .95rem;
+      line-height: 1.85;
+      color: rgba(245,237,224,.7);
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+    .stats-row { display: flex; gap: 2.5rem; margin-top: 2rem; }
+    .stat strong { display: block; font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); }
+    .stat span { font-size: .8rem; opacity: .6; letter-spacing: .05em; }
+
+    /* MENU */
+    #menu { background: var(--charcoal); }
+    .menu-header { text-align: center; margin-bottom: 3.5rem; }
+    .menu-header .divider { margin: 1.2rem auto 1.6rem; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .menu-card {
+      background: var(--smoke);
+      border: 1px solid rgba(200,68,10,.15);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      position: relative;
+    }
+    .menu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(200,68,10,.3);
+      border-color: rgba(200,68,10,.35);
+    }
+    .menu-emoji {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      background: linear-gradient(135deg, rgba(26,20,16,.8), rgba(46,36,32,.9));
+      position: relative;
+    }
+    .menu-emoji::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(to top, var(--smoke), transparent);
+    }
+    .badge-hot {
+      position: absolute;
+      top: .75rem; right: .75rem;
+      background: var(--ember);
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .25rem .65rem;
+      border-radius: 999px;
+    }
+    .menu-body { padding: 1.25rem; }
+    .menu-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+      color: var(--warm-white);
+    }
+    .menu-body p {
+      font-size: .82rem;
+      color: rgba(245,237,224,.55);
+      line-height: 1.6;
+      margin-bottom: .9rem;
+      font-weight: 300;
+    }
+    .menu-footer { display: flex; align-items: center; justify-content: space-between; }
+    .price { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); }
+    .order-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: rgba(200,68,10,.12);
+      border: 1px solid rgba(200,68,10,.3);
+      color: var(--flame);
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .45rem .9rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background .2s, border-color .2s;
+    }
+    .order-btn:hover { background: rgba(200,68,10,.25); border-color: var(--flame); }
+
+    /* HOW TO ORDER */
+    #cara-pesan { background: linear-gradient(180deg, var(--charcoal) 0%, var(--smoke) 100%); }
+    .steps-header { text-align: center; margin-bottom: 3.5rem; }
+    .steps-header .divider { margin: 1.2rem auto 1.6rem; }
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .step-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px;
+      transition: background .25s, border-color .25s;
+    }
+    .step-card:hover { background: rgba(200,68,10,.07); border-color: rgba(200,68,10,.2); }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(200,68,10,.2);
+      line-height: 1;
+      margin-bottom: .75rem;
+    }
+    .step-icon { font-size: 2.2rem; margin-bottom: .75rem; }
+    .step-card h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: .5rem; color: var(--warm-white); }
+    .step-card p { font-size: .82rem; color: rgba(245,237,224,.5); line-height: 1.6; font-weight: 300; }
+
+    /* TESTIMONIALS */
+    #ulasan { background: var(--smoke); }
+    .testi-header { text-align: center; margin-bottom: 3.5rem; }
+    .testi-header .divider { margin: 1.2rem auto 1.6rem; }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .testi-card {
+      padding: 1.75rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px;
+      position: relative;
+    }
+    .testi-card::before {
+      content: '"';
+      position: absolute;
+      top: .75rem; right: 1.25rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: rgba(200,68,10,.25);
+      line-height: 1;
+    }
+    .stars { color: var(--gold); font-size: .9rem; margin-bottom: .75rem; letter-spacing: .1em; }
+    .testi-card p { font-size: .88rem; line-height: 1.75; color: rgba(245,237,224,.7); font-weight: 300; margin-bottom: 1.1rem; font-style: italic; }
+    .testi-author { font-size: .8rem; font-weight: 500; color: var(--flame); letter-spacing: .05em; }
+    .testi-loc { font-size: .75rem; color: rgba(245,237,224,.4); }
+
+    /* CTA */
+    #kontak {
+      background: linear-gradient(135deg, var(--smoke) 0%, rgba(200,68,10,.15) 50%, var(--smoke) 100%);
+      text-align: center;
+      padding: 6rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #kontak::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(240,112,48,.07) 0%, transparent 70%);
+    }
+    #kontak h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    #kontak p { max-width: 480px; margin: 0 auto 2.5rem; font-size: .95rem; color: rgba(245,237,224,.65); line-height: 1.75; font-weight: 300; position: relative; }
+    .wa-btn-big {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      background: #25D366;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      padding: 1rem 2.2rem;
+      border-radius: 6px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 24px rgba(37,211,102,.35);
+      position: relative;
+    }
+    .wa-btn-big:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(37,211,102,.5); }
+    .wa-btn-big svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+
+    /* FOOTER */
+    footer {
+      background: #0e0b08;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    footer .foot-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--gold); margin-bottom: .5rem; }
+    footer p { font-size: .78rem; color: rgba(245,237,224,.3); line-height: 1.8; }
+
+    /* FLOATING WA */
+    .wa-float {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: #25D366;
+      color: #fff;
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      padding: .75rem 1.2rem;
+      border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(37,211,102,.45);
+      transition: transform .2s, box-shadow .2s;
+      white-space: nowrap;
+      animation: waPulse 3s ease infinite;
+    }
+    .wa-float:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 30px rgba(37,211,102,.6); }
+    @keyframes waPulse {
+      0%,100%{ box-shadow: 0 6px 20px rgba(37,211,102,.45); }
+      50%    { box-shadow: 0 6px 28px rgba(37,211,102,.7), 0 0 0 6px rgba(37,211,102,.12); }
+    }
+    .wa-float svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      .story-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stats-row { gap: 1.5rem; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .steps-grid { grid-template-columns: 1fr; }
+      .wa-float .wa-label { display: none; }
+      .wa-float { padding: .85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav aria-label="Navigasi utama">
+    <a href="#hero" class="nav-logo" aria-label="Kembali ke halaman utama">Ayam Bakar <span>Pak Karto</span></a>
+    <ul class="nav-links" role="list">
+      <li><a href="#cerita">Cerita</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#cara-pesan">Cara Pesan</a></li>
+      <li><a href="#ulasan">Ulasan</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" aria-label="Hero utama">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-grill" aria-hidden="true"></div>
+    <div class="embers" aria-hidden="true" id="embers"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Dibakar Segar Setiap Hari</div>
+      <h1 class="hero-title">Ayam Bakar<br/><span class="accent">Pak Karto</span></h1>
+      <p class="hero-sub">Cita Rasa Asli, Bumbu Leluhur</p>
+      <p class="hero-desc">
+        Dibakar di atas arang pilihan, dilumuri bumbu rempah rahasia turun-temurun.
+        Setiap gigitan membawa kehangatan rumah yang sesungguhnya.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#menu" class="btn-primary" aria-label="Lihat menu lengkap">🍗 Lihat Menu</a>
+        <a
+          href="https://wa.me/6281234567890?text=Halo%20Pak%20Karto%2C%20saya%20mau%20pesan%20ayam%20bakar!"
+          class="btn-outline"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Pesan sekarang via WhatsApp"
+        >💬 Pesan Sekarang</a>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="cerita" aria-labelledby="cerita-title">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-visual">
+          <div class="story-plate" role="img" aria-label="Ilustrasi ayam bakar">🍗</div>
+          <div class="story-tag">Sejak 1987 <small>Generasi ke-2</small></div>
+        </div>
+        <div class="story-text">
+          <p class="section-label">Tentang Kami</p>
+          <h2 class="section-title" id="cerita-title">Dari Tungku <em>Sederhana</em><br/>ke Meja Anda</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p>Berawal dari warung kecil di pojok pasar Bantul tahun 1987, Pak Karto memulai perjalanan dengan resep bumbu bakar rahasia yang diwariskan sang nenek. Kini, lebih dari tiga dekade kemudian, cita rasa itu tetap terjaga utuh.</p>
+          <p>Setiap ekor ayam dipilih sendiri, dimarinasi minimal 12 jam, dan dibakar di atas arang kayu jati — bukan kompor gas — untuk menghasilkan aroma smoky yang tidak bisa ditiru.</p>
+          <div class="stats-row" role="list">
+            <div class="stat" role="listitem"><strong>37+</strong><span>Tahun Pengalaman</span></div>
+            <div class="stat" role="listitem"><strong>500+</strong><span>Porsi / Hari</span></div>
+            <div class="stat" role="listitem"><strong>4.9★</strong><span>Rating Pelanggan</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu" aria-labelledby="menu-title">
+    <div class="container">
+      <div class="menu-header">
+        <p class="section-label">Pilihan Menu</p>
+        <h2 class="section-title" id="menu-title">Semua Serba <em>Nikmat</em></h2>
+        <div class="divider" aria-hidden="true"></div>
+      </div>
+      <div class="menu-grid" role="list">
+
+        <article class="menu-card" role="listitem">
+          <div class="menu-emoji" role="img" aria-label="Ayam Bakar Original">🍗<span class="badge-hot">Terlaris</span></div>
+          <div class="menu-body">
+            <h3>Ayam Bakar Original</h3>
+            <p>Bumbu rempah asli Jawa, dibakar sempurna di arang kayu jati. Disajikan dengan lalapan segar & sambel korek.</p>
+            <div class="menu-footer">
+              <span class="price">Rp 28.000</span>
+              <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20pesan%20Ayam%20Bakar%20Original!"
+                 class="order-btn" target="_blank" rel="noopener noreferrer" aria-label="Pesan Ayam Bakar Original">Pesan →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card" role="listitem">
+          <div class="menu-emoji" role="img" aria-label="Ayam Bakar Pedas">🌶️</div>
+          <div class="menu-body">
+            <h3>Ayam Bakar Pedas</h3>
+            <p>Versi ekstra pedas dengan cabai rawit merah pilihan. Cocok buat kamu yang suka tantangan rasa.</p>
+            <div class="menu-footer">
+              <span class="price">Rp 30.000</span>
+              <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20pesan%20Ayam%20Bakar%20Pedas!"
+                 class="order-btn" target="_blank" rel="noopener noreferrer" aria-label="Pesan Ayam Bakar Pedas">Pesan →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card" role="listitem">
+          <div class="menu-emoji" role="img" aria-label="Ayam Bakar Madu">🍯<span class="badge-hot">Baru</span></div>
+          <div class="menu-body">
+            <h3>Ayam Bakar Madu</h3>
+            <p>Dilapisi madu hutan asli saat dibakar, menciptakan karamelisasi sempurna dan rasa manis gurih.</p>
+            <div class="menu-footer">
+              <span class="price">Rp 33.000</span>
+              <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20pesan%20Ayam%20Bakar%20Madu!"
+                 class="order-btn" target="_blank" rel="noopener noreferrer" aria-label="Pesan Ayam Bakar Madu">Pesan →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card" role="listitem">
+          <div class="menu-emoji" role="img" aria-label="Paket Keluarga">👨‍👩‍👧‍👦</div>
+          <div class="menu-body">
+            <h3>Paket Keluarga (4 Ekor)</h3>
+            <p>4 ekor ayam bakar pilihan + 4 porsi nasi + 4 es teh manis. Hemat & kenyang sekeluarga!</p>
+            <div class="menu-footer">
+              <span class="price">Rp 110.000</span>
+              <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20pesan%20Paket%20Keluarga!"
+                 class="order-btn" target="_blank" rel="noopener noreferrer" aria-label="Pesan Paket Keluarga">Pesan →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card" role="listitem">
+          <div class="menu-emoji" role="img" aria-label="Nasi Bakar">🍚</div>
+          <div class="menu-body">
+            <h3>Nasi Bakar Ayam Suwir</h3>
+            <p>Nasi dibumbui dengan daun salam & serai, dibungkus daun pisang, dibakar hingga harum.</p>
+            <div class="menu-footer">
+              <span class="price">Rp 22.000</span>
+              <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20pesan%20Nasi%20Bakar%20Ayam%20Suwir!"
+                 class="order-btn" target="_blank" rel="noopener noreferrer" aria-label="Pesan Nasi Bakar Ayam Suwir">Pesan →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="menu-card" role="listitem">
+          <div class="menu-emoji" role="img" aria-label="Es Kelapa Muda">🥥</div>
+          <div class="menu-body">
+            <h3>Es Kelapa Muda</h3>
+            <p>Kelapa muda segar langsung dibelah di depan kamu. Penyegar terbaik setelah ayam bakar pedas.</p>
+            <div class="menu-footer">
+              <span class="price">Rp 12.000</span>
+              <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20pesan%20Es%20Kelapa%20Muda!"
+                 class="order-btn" target="_blank" rel="noopener noreferrer" aria-label="Pesan Es Kelapa Muda">Pesan →</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO ORDER -->
+  <section id="cara-pesan" aria-labelledby="cara-pesan-title">
+    <div class="container">
+      <div class="steps-header">
+        <p class="section-label">Cara Pesan</p>
+        <h2 class="section-title" id="cara-pesan-title">Mudah &amp; <em>Cepat</em></h2>
+        <div class="divider" aria-hidden="true"></div>
+      </div>
+      <div class="steps-grid" role="list">
+        <div class="step-card" role="listitem">
+          <div class="step-num" aria-hidden="true">01</div>
+          <div class="step-icon" role="img" aria-label="Chat">💬</div>
+          <h4>Hubungi Kami</h4>
+          <p>Klik tombol WhatsApp di bawah atau langsung chat ke nomor kami.</p>
+        </div>
+        <div class="step-card" role="listitem">
+          <div class="step-num" aria-hidden="true">02</div>
+          <div class="step-icon" role="img" aria-label="Pilih menu">🍗</div>
+          <h4>Pilih Menu</h4>
+          <p>Beritahu menu dan jumlah pesanan yang kamu inginkan.</p>
+        </div>
+        <div class="step-card" role="listitem">
+          <div class="step-num" aria-hidden="true">03</div>
+          <div class="step-icon" role="img" aria-label="Lokasi">📍</div>
+          <h4>Konfirmasi Alamat</h4>
+          <p>Sampaikan alamat lengkap atau pilih ambil di tempat.</p>
+        </div>
+        <div class="step-card" role="listitem">
+          <div class="step-num" aria-hidden="true">04</div>
+          <div class="step-icon" role="img" aria-label="Makan">😋</div>
+          <h4>Nikmati!</h4>
+          <p>Pesanan disiapkan segar & panas, siap dinikmati selagi hangat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="ulasan" aria-labelledby="ulasan-title">
+    <div class="container">
+      <div class="testi-header">
+        <p class="section-label">Ulasan Pelanggan</p>
+        <h2 class="section-title" id="ulasan-title">Kata <em>Mereka</em></h2>
+        <div class="divider" aria-hidden="true"></div>
+      </div>
+      <div class="testi-grid" role="list">
+        <div class="testi-card" role="listitem">
+          <div class="stars" aria-label="5 bintang">★★★★★</div>
+          <p>Beneran gak bohong, ini ayam bakar paling enak yang pernah gue makan. Bumbunya meresap banget, sambelnya juga nampol!</p>
+          <div class="testi-author">Rizky A.</div>
+          <div class="testi-loc">Jakarta Selatan</div>
+        </div>
+        <div class="testi-card" role="listitem">
+          <div class="stars" aria-label="5 bintang">★★★★★</div>
+          <p>Udah langganan hampir 5 tahun. Kualitasnya konsisten, porsinya besar, harganya masih oke. Recommended banget buat yang mau katering!</p>
+          <div class="testi-author">Sari W.</div>
+          <div class="testi-loc">Depok</div>
+        </div>
+        <div class="testi-card" role="listitem">
+          <div class="stars" aria-label="5 bintang">★★★★★</div>
+          <p>Ayam Bakar Madu-nya luar biasa. Manis gurihnya pas, wangi bakarnya bikin nagih. Paket keluarga juga sangat worth it!</p>
+          <div class="testi-author">Bagas F.</div>
+          <div class="testi-loc">Bogor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section id="kontak" aria-labelledby="kontak-title">
+    <div class="container">
+      <h2 id="kontak-title">Siap Mesan <em style="color:var(--flame);font-style:italic">Sekarang?</em></h2>
+      <p>Chat langsung dengan admin kami di WhatsApp. Respon cepat, pelayanan ramah, pesanan langsung diproses!</p>
+      <a
+        href="https://wa.me/6281234567890?text=Halo%20Pak%20Karto%2C%20saya%20mau%20pesan%20ayam%20bakar!%20Bisa%20info%20menu%20lengkapnya%3F"
+        class="wa-btn-big"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat via WhatsApp sekarang"
+      >
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span>Chat WhatsApp Sekarang</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-logo">Ayam Bakar Pak Karto</div>
+    <p>
+      Jl. Raya Bantul No. 88, Yogyakarta &nbsp;|&nbsp; Buka Setiap Hari 10.00 – 21.00<br/>
+      &copy; 2025 Ayam Bakar Pak Karto. Semua hak dilindungi.
+    </p>
+  </footer>
+
+  <!-- FLOATING WA BUTTON -->
+  <a
+    href="https://wa.me/6281234567890?text=Halo%20Pak%20Karto%2C%20saya%20mau%20pesan%20ayam%20bakar!"
+    class="wa-float"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Hubungi kami via WhatsApp"
+    title="Chat WhatsApp"
+  >
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    <span class="wa-label">Chat WhatsApp</span>
+  </a>
+
+  <script>
+    /* ── Ember particle generator (pure JS, zero user input) ── */
+    (function () {
+      'use strict';
+      var container = document.getElementById('embers');
+      if (!container) return;
+      for (var i = 0; i < 20; i++) {
+        var el = document.createElement('span');
+        el.className = 'ember';
+        el.setAttribute('aria-hidden', 'true');
+        el.style.left   = (20 + Math.random() * 60).toFixed(1) + '%';
+        el.style.top    = (50 + Math.random() * 45).toFixed(1) + '%';
+        el.style.setProperty('--dur',   (4  + Math.random() * 6).toFixed(2) + 's');
+        el.style.setProperty('--delay', (Math.random() * 8).toFixed(2) + 's');
+        el.style.setProperty('--dx',    ((Math.random() - 0.5) * 80).toFixed(0) + 'px');
+        el.style.animationDelay = el.style.getPropertyValue('--delay');
+        container.appendChild(el);
+      }
+    })();
+
+    /* ── Active nav link on scroll ── */
+    (function () {
+      'use strict';
+      var sections = document.querySelectorAll('section[id]');
+      var links    = document.querySelectorAll('.nav-links a');
+      if (!sections.length || !links.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          links.forEach(function (a) {
+            var active = a.getAttribute('href') === '#' + e.target.id;
+            a.style.opacity = active ? '1'           : '';
+            a.style.color   = active ? 'var(--gold)' : '';
+          });
+        });
+      }, { threshold: 0.4 });
+      sections.forEach(function (s) { io.observe(s); });
+    })();
+  </script>
+
+</body>
+</html>
